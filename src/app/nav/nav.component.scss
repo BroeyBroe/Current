@@ -1,0 +1,63 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.app-container {
+  padding: 5rem;
+}
+
+.nav-link {
+  font-weight: 300;
+  mat-icon {
+    vertical-align: middle;
+    margin-right: 1rem;
+  }
+}
+
+.logo-container {
+  text-align: center;
+  padding: 1rem 0;
+  .app-logo {
+    max-width: 30%;
+  }
+}
+
+.dark-logo {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+  transition: .5s ease;
+}
+
+.app-title {
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 5px;
+}
+
+.theme-container {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.top-bar {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  .title {
+    margin-right: auto;
+  }
+}

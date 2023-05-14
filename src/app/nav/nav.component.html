@@ -1,0 +1,45 @@
+<div class="theme-container mat-app-background" [ngClass]="darkMode ? 'dark-mode' : ''">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="(isHandset$ | async) === false">
+        <div class="logo-container">
+          <img src="../../assets/logo.png" alt="Recipe App Logo" class="app-logo" [ngClass]="darkMode ? 'dark-logo' : ''">
+        </div>
+      <mat-nav-list>
+        <a class="nav-link" mat-list-item routerLink=""><mat-icon>search</mat-icon> Search</a>
+        <a class="nav-link" mat-list-item routerLink="category"><mat-icon>dns</mat-icon> Categories</a>
+        <a class="nav-link" mat-list-item routerLink="favourites" *appHideNonAuth="true"><mat-icon>favorite</mat-icon>Favourites</a>
+        <a class="nav-link" mat-list-item routerLink="auth/login" *appHideNonAuth="false"><mat-icon>login</mat-icon>Login</a>
+        <a class="nav-link" mat-list-item (click)="onLogout()" *appHideNonAuth="true"><mat-icon>logout</mat-icon>Logout</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <div class="top-bar">
+          <div class="title">
+            <span class="app-title">Movie App</span>
+          </div>
+          <div class="mode-toggle">
+            <button mat-icon-button (click)="onToggleTheme()" *ngIf="!darkMode"><mat-icon>dark_mode</mat-icon></button>
+            <button mat-icon-button (click)="onToggleTheme()" *ngIf="darkMode"><mat-icon>light_mode</mat-icon></button>
+          </div>
+        </div>
+      </mat-toolbar>
+      <!-- Add Content Here -->
+      <div class="app-container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

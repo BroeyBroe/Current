@@ -1,0 +1,6 @@
+<div class="recipe-container" (click)="onViewRecipe()" [@fadeInOut]>
+    <div class="overlay">
+      <span class="recipe-title">{{ recipe.name | shorten }}</span>
+    </div>
+    <img [src]="thumbnailUrl" [alt]="recipe.name">
+  </div>

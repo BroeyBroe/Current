@@ -1,0 +1,6 @@
+<div class="list-container">
+    <app-recipe-item *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-item>
+</div>
+<p *ngIf="recipes.length == 0">
+    No recipes to display
+</p>
