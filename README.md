@@ -1,10 +1,5 @@
-# RecipeBook
-
-This project is used as a teaching resource within the BSc Hons. Advanced Topics in Computing module (UHI)
-
-## Branch Structure
-
-You can use this resource to view solutions to weekly exercises. Choose the branch corresponding to the week of teaching. Each branch contains the app in the state of end of the tutorials for any given week. For example, branch 1 has the app complete as of the end of the 1st week of tutorials (including the set exercise). 
+## Movie App
+This is a basic Angular movie application that pulls from The Movie Database (TMDB) and allows for Registration and Login.
 
 ## Re-building Dependencies
 
