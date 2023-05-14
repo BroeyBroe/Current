@@ -9,18 +9,17 @@ import { RecipeService } from '../../services/recipe.service';
   styleUrls: ['./recipe-by-category.component.scss']
 })
 export class RecipeByCategoryComponent implements OnInit {
-  loading = true;
-  recipes: RecipePreview[] = [];
-  categories: any[] = [];
 
   constructor(private recipeService: RecipeService, private route: ActivatedRoute) { }
+
+  loading = true;
+  recipes: RecipePreview[] = [];
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.loading = true;
       const category = params.get('category');
-      this.fetchRecipes(category!);
-      this.fetchCategories();
+      this.fetchRecipes(category!);      
     });
   }
 
@@ -31,6 +30,4 @@ export class RecipeByCategoryComponent implements OnInit {
     });
   }
 
-  fetchCategories() {
-  }
 }

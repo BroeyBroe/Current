@@ -11,7 +11,7 @@
                 <mat-error>{{ getPasswordError() }}</mat-error>
             </mat-form-field>
             <button mat-raised-button color="primary" [disabled]="registerForm.invalid">Register</button>
-            <p>Already have an account? Login <a routerLink="../auth/login">here</a></p>
+            <p>Already have an account? Login <a routerLink="../login">here</a></p>
             <app-loading-spinner *ngIf="loading"></app-loading-spinner>
             <mat-error *ngIf="error">{{ error }}</mat-error>
         </form>
