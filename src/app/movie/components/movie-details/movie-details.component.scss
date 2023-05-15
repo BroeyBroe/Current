@@ -1,77 +1,129 @@
-mat-card {
-    padding: 3rem;
+.movie-image {
+  width: 30%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.close-action {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.poster-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
 }
+
+.favorite-button {
+  position: absolute;
+  top: 0.5rem; 
+  left: 0.5rem; 
+  z-index: 2;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #ffffff;
+  background-color: transparent;
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  transform: scale(1.1);
+  color: #ff0000;
+}
+
+.close-button mat-icon {
+  font-size: 20px;
+}
+
+
+.genre-chip,
+.release-date-chip {
+  border-radius: 4px; /* Adjust the border-radius as needed */
+  padding: 0.25rem 0.5rem; /* Adjust the padding as needed */
+  font-size: 0.9rem; /* Adjust the font size as needed */
+  font-weight: 500; /* Adjust the font weight as needed */
+  background-color: #ffffff; /* Adjust the background color as needed */
+  color: #636363; /* Adjust the text color as needed */
+  margin-right: 0.5rem; /* Adjust the spacing between chips as needed */
+  margin-bottom: 0.5rem; /* Adjust the spacing between chips as needed */
+  display: inline-block; /* Added to prevent chips from stacking */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Added for smooth transition */
+}
+
+.genre-chip:hover,
+.release-date-chip:hover {
+  background-color: #333333; /* Adjust the hover background color as needed */
+  color: #ffffff; /* Adjust the hover text color as needed */
+}
+
 
 .movie-details {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2rem;
+  gap: 2rem;
 }
 
-.movie-image {
-    flex: 0 0 33.33333%;
-    margin-right: 2rem;
 
-    img {
-        max-width: 100%;
-    }
+.movie-info h1 {
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  display: inline-block; /* Added */
+  background-color: rgba(0, 0, 0, 0.7); /* Adjust the background color and opacity as needed */
+  padding: 0.5rem 1rem; /* Adjust the padding as needed */
+  border-radius: 8px; /* Adjust the border-radius as needed */
+  color: #ffffff; /* Adjust the text color as needed */
 }
 
-.movie-instructions {
-    flex: 0 0 66.6666%;
 
-    ul {
-        list-style: none;
-        padding: 0;
-        column-count: 2;
-        column-gap: 0;
-
-        li {
-            padding: .5rem 1rem;
-            margin-bottom: .5rem;
-            border-bottom: 1px solid rgb(235, 235, 235);
-        }
-    }
-}
-
-.image-container {
-    position: relative;
-}
-
-.overlay {
-    position: absolute;
-    inset: 0;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    button {
-        align-self: flex-end;
-    }
-}
-
-h1, h2 {
-    text-transform: uppercase;
-    letter-spacing: 5px;
-}
-
-h2 {
-    font-weight: 400;
-}
 
 h1 {
-    font-weight: 300;
-    background-color: rgba(85, 3, 3, 0.8);
-    color: white;
-    padding: .5rem 1rem;
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
-.movie-method, .similar-movies {
-    margin-top: 3rem;
+.movie-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  border-radius: 8px;
 }
+
+.movie-overview {
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+  background-color: #1b1b1b; /* Adjust the background color as needed */
+  padding: 1rem; /* Adjust the padding as needed */
+  border-radius: 8px; /* Adjust the border-radius as needed */
+  font-family: 'Roboto', sans-serif; /* Adjust the font family as needed */
+  font-size: 1rem; /* Adjust the font size as needed */
+  line-height: 1.5; /* Adjust the line height as needed */
+  color: #ffffff; /* Adjust the text color as needed */
+}
+

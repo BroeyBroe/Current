@@ -11,20 +11,24 @@ import { ErrorBoxComponent } from 'src/app/shared/components/error-box/error-box
   providedIn: 'root'
 })
 export class FavouritesService {
-
   userID!: string | null;
   favourites: MoviePreview[] = [];
   favourites$ = new BehaviorSubject<MoviePreview[]>([]);
   authToken: any;
 
-  constructor(private http: HttpClient, private auth: AngularFireAuth, private snackbar: MatSnackBar, private dialog: MatDialog) {
+  constructor(
+    private http: HttpClient,
+    private auth: AngularFireAuth,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog
+  ) {
     this.auth.authState.subscribe(user => {
       this.userID = user ? user.uid : null;
-      if(this.userID) {
+      if (this.userID) {
         user?.getIdToken(false).then(token => {
           this.authToken = token;
           this.getFavourites();
-        })
+        });
       } else {
         this.getFavourites();
       }
@@ -32,55 +36,118 @@ export class FavouritesService {
   }
 
   getFavourites() {
-    if(!this.userID) {
+    if (!this.userID) {
       this.favourites = [];
       this.favourites$.next(this.favourites.slice());
       return;
     }
-    this.http.get<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', {
-      params: {
-        'auth': this.authToken
-      }
-    })
-    .subscribe({
-      next: (response) => {
-        if(response) {
-          this.favourites = response;
-          this.favourites$.next(this.favourites.slice());
+    this.http
+      .get<MoviePreview[]>(
+        'https://assessment-2-69e65-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json',
+        {
+          params: {
+            auth: this.authToken
+          }
         }
-      },
-      error: (error) => {
-        this.dialog.open(ErrorBoxComponent, {data: 'Error fetching favourites: ' + error.error.error}).afterClosed().subscribe(dialogResponse => {
-          console.log(dialogResponse);        
-        });
-      }
-    });
+      )
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.favourites = response;
+            this.favourites$.next(this.favourites.slice());
+          } else {
+            this.favourites = [];
+            this.favourites$.next([]);
+          }
+        },
+        error: (error) => {
+          this.dialog
+            .open(ErrorBoxComponent, { data: 'Error fetching favourites: ' + error.error.error })
+            .afterClosed()
+            .subscribe(dialogResponse => {
+              console.log(dialogResponse);
+            });
+        }
+      });
+  }
+
+  private updateFavourites() {
+    this.favourites$.next([...this.favourites]);
+  }
+
+  private saveFavouritesToFirebase(successMessage: string, errorMessage: string): Promise<void> {
+    if (!this.userID) {
+      console.error('User ID is not available.');
+      return Promise.reject('User ID is not available.');
+    }
+    return this.http
+      .put<void>(
+        'https://assessment-2-69e65-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json',
+        this.favourites,
+        {
+          params: {
+            auth: this.authToken
+          }
+        }
+      )
+      .toPromise();
   }
 
   storeFavourites(movie: MoviePreview) {
-    this.favourites.push(movie);
-    this.http.put<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
-    .subscribe(response => {
-      this.snackbar.open("Added to favourites", "UNDO", {duration: 3000}).afterDismissed().subscribe(snackbarResponse => {
-        if(snackbarResponse.dismissedByAction) {
-          this.removeFavourite(movie);
-        }
-      });
-    });
-    this.favourites$.next(this.favourites.slice());
+    const index = this.favourites.findIndex(f => f.id === movie.id);
+    if (index === -1) {
+      this.favourites.push(movie);
+      this.updateFavourites();
+      this.saveFavouritesToFirebase('Favourites saved successfully', 'Error saving favourites')
+        .then(() => {
+          this.snackbar
+            .open('Favourites saved successfully', 'OK', { duration: 3000 })
+            .afterDismissed()
+            .subscribe(snackbarResponse => {
+              console.log(snackbarResponse);
+            });
+        })
+        .catch(error => {
+          console.error('Error saving favourites:', error);
+          this.dialog
+            .open(ErrorBoxComponent, { data: 'Error saving          favourites: ' + error })
+            .afterClosed()
+            .subscribe(dialogResponse => {
+              console.log(dialogResponse);
+            });
+        });
+    } else {
+      console.log('Movie already exists in favourites');
+      this.removeFavourite(movie);
+    }
   }
 
   removeFavourite(movie: MoviePreview) {
-    let i = this.favourites.map(f => f.id).indexOf(movie.id);
-    this.favourites.splice(i, 1);
-    this.http.put<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
-    .subscribe(response => {
-      this.snackbar.open("Removed favourite", "UNDO", {duration: 3000}).afterDismissed().subscribe(snackbarResponse => {
-        if(snackbarResponse.dismissedByAction) {
-          this.storeFavourites(movie);
-        }
-      });
-    });
-    this.favourites$.next(this.favourites.slice());
+    const index = this.favourites.findIndex(f => f.id === movie.id);
+    if (index !== -1) {
+      this.favourites.splice(index, 1);
+      this.updateFavourites();
+      this.saveFavouritesToFirebase('Favourites removed successfully', 'Error removing favourites')
+        .then(() => {
+          this.snackbar
+            .open('Favourites removed successfully', 'OK', { duration: 3000 })
+            .afterDismissed()
+            .subscribe(snackbarResponse => {
+              console.log(snackbarResponse);
+            });
+        })
+        .catch(error => {
+          console.error('Error removing favourites:', error);
+          this.dialog
+            .open(ErrorBoxComponent, { data: 'Error removing favourites: ' + error })
+            .afterClosed()
+            .subscribe(dialogResponse => {
+              console.log(dialogResponse);
+            });
+        });
+    } else {
+      console.log('Movie not found in favourites');
+    }
   }
 }
+

@@ -1,41 +1,38 @@
 <ng-container *ngIf="movie; else loading">
-    <mat-card>
-      <div class="close-action">
-        <button mat-icon-button (click)="onBack()">
-          <mat-icon>close</mat-icon>
+  <mat-card class="movie-card">
+    <button mat-icon-button class="close-button" (click)="onBack()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="movie-details">
+      <div class="favorite-button">
+        <button mat-fab color="warn" *ngIf="authenticated && !isFavourite" (click)="onAddFavourite(movie)">
+          <mat-icon>favorite_outline</mat-icon>
+        </button>
+        <button mat-fab color="warn" *ngIf="authenticated && isFavourite" (click)="onRemoveFavourite(movie)">
+          <mat-icon>favorite</mat-icon>
         </button>
       </div>
-      <div class="movie-details">
-        <div class="movie-image">
-          <div class="image-container">
-            <img [src]="movie.poster_path" [alt]="movie.title">
-            <div class="overlay">
-              <button mat-fab color="warn" *ngIf="authenticated && !isFavourite" (click)="onAddFavourite(movie)">
-                <mat-icon>favorite_outline</mat-icon>
-              </button>
-              <button mat-fab color="warn" *ngIf="authenticated && isFavourite" (click)="onRemoveFavourite(movie)">
-                <mat-icon>favorite</mat-icon>
-              </button>
-              <h1>{{ movie.title }}</h1>
-              <mat-chip-listbox>
-                <mat-chip *ngFor="let genre of movie.genres" color="primary" highlighted>
-                  {{ genre.name }}
-                </mat-chip>
-                <mat-chip color="accent" highlighted>
-                  {{ movie.release_date | date:'yyyy' }}
-                </mat-chip>
-              </mat-chip-listbox>
-            </div>
-          </div>
-        </div>
+      <div class="movie-image">
+        <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" class="poster-image" />
+        <div *ngIf="!movie.poster_path" class="no-poster-image"></div>
+      </div>
+      <div class="movie-info">
+        <h1>{{ movie.title }}</h1>
+        <mat-chip-listbox>
+          <mat-chip *ngFor="let genre of movie.genres" color="primary" class="genre-chip">
+            {{ genre.name }}
+          </mat-chip>
+          <mat-chip color="accent" class="release-date-chip">
+            {{ movie.release_date | date:'yyyy' }}
+          </mat-chip>
+        </mat-chip-listbox>
         <div class="movie-overview">
-          <h2>Overview</h2>
           <p>{{ movie.overview }}</p>
         </div>
       </div>
-    </mat-card>
-  </ng-container>
-  <ng-template #loading>
-    <app-loading-spinner></app-loading-spinner>
-  </ng-template>
-  
+    </div>
+  </mat-card>
+</ng-container>
+<ng-template #loading>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
