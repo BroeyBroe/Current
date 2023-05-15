@@ -16,7 +16,7 @@ import { NavComponent } from './nav/nav.component';
 import { AppRoutingModule } from './app-routing.module';
 import { firebaseConfig } from './auth/models/firebase.model';
 
-import { RecipeModule } from './recipe/recipe.module';
+import { MovieModule } from './movie/movie.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -36,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
     MatIconModule,
     MatListModule,
     MatSnackBarModule,
-    RecipeModule,
+    MovieModule,
     SharedModule,
     AppRoutingModule
   ],

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RecipePreview } from 'src/app/recipe/models/recipe-preview.model';
+import { MoviePreview } from 'src/app/movie/models/movie-preview.model';
 import { FavouritesService } from '../../services/favourites.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
 
   constructor(private favouriteService: FavouritesService) { }
 
-  favourites: RecipePreview[] = [];
+  favourites: MoviePreview[] = [];
   loading = true;
   favouriteSub = new Subscription;
 

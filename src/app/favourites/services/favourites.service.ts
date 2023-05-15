@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs';
-import { RecipePreview } from 'src/app/recipe/models/recipe-preview.model';
+import { MoviePreview } from 'src/app/movie/models/movie-preview.model';
 import { ErrorBoxComponent } from 'src/app/shared/components/error-box/error-box.component';
 
 @Injectable({
@@ -13,8 +13,8 @@ import { ErrorBoxComponent } from 'src/app/shared/components/error-box/error-box
 export class FavouritesService {
 
   userID!: string | null;
-  favourites: RecipePreview[] = [];
-  favourites$ = new BehaviorSubject<RecipePreview[]>([]);
+  favourites: MoviePreview[] = [];
+  favourites$ = new BehaviorSubject<MoviePreview[]>([]);
   authToken: any;
 
   constructor(private http: HttpClient, private auth: AngularFireAuth, private snackbar: MatSnackBar, private dialog: MatDialog) {
@@ -37,7 +37,7 @@ export class FavouritesService {
       this.favourites$.next(this.favourites.slice());
       return;
     }
-    this.http.get<RecipePreview[]>('https://recipebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', {
+    this.http.get<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', {
       params: {
         'auth': this.authToken
       }
@@ -57,27 +57,27 @@ export class FavouritesService {
     });
   }
 
-  storeFavourites(recipe: RecipePreview) {
-    this.favourites.push(recipe);
-    this.http.put<RecipePreview[]>('https://recipebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
+  storeFavourites(movie: MoviePreview) {
+    this.favourites.push(movie);
+    this.http.put<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
     .subscribe(response => {
       this.snackbar.open("Added to favourites", "UNDO", {duration: 3000}).afterDismissed().subscribe(snackbarResponse => {
         if(snackbarResponse.dismissedByAction) {
-          this.removeFavourite(recipe);
+          this.removeFavourite(movie);
         }
       });
     });
     this.favourites$.next(this.favourites.slice());
   }
 
-  removeFavourite(recipe: RecipePreview) {
-    let i = this.favourites.map(f => f.id).indexOf(recipe.id);
+  removeFavourite(movie: MoviePreview) {
+    let i = this.favourites.map(f => f.id).indexOf(movie.id);
     this.favourites.splice(i, 1);
-    this.http.put<RecipePreview[]>('https://recipebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
+    this.http.put<MoviePreview[]>('https://moviebook-c58b2-default-rtdb.europe-west1.firebasedatabase.app/favourites/' + this.userID + '.json', this.favourites, {params: {'auth': this.authToken}})
     .subscribe(response => {
       this.snackbar.open("Removed favourite", "UNDO", {duration: 3000}).afterDismissed().subscribe(snackbarResponse => {
         if(snackbarResponse.dismissedByAction) {
-          this.storeFavourites(recipe);
+          this.storeFavourites(movie);
         }
       });
     });

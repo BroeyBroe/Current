@@ -1,0 +1,6 @@
+<div class="movie-container" (click)="onViewMovie()" [@fadeInOut]>
+    <div class="overlay">
+      <span class="movie-title">{{ movie.name | shorten }}</span>
+    </div>
+    <img [src]="thumbnailUrl" [alt]="movie.name">
+  </div>

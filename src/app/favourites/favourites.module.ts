@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { FavouritesComponent } from './components/favourites/favourites.component';
-import { RecipeDetailsComponent } from '../recipe/components/recipe-details/recipe-details.component';
+import { MovieDetailsComponent } from '../movie/components/movie-details/movie-details.component';
 import { AuthGuardService } from '../auth/services/auth-guard.service';
-import { RecipeModule } from '../recipe/recipe.module';
+import { MovieModule } from '../movie/movie.module';
 import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: FavouritesComponent, canActivate: [AuthGuardService] },
-  { path: ':id', component: RecipeDetailsComponent, canActivate: [AuthGuardService] }
+  { path: ':id', component: MovieDetailsComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
@@ -18,7 +18,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    RecipeModule,
+    MovieModule,
     SharedModule
   ]
 })
